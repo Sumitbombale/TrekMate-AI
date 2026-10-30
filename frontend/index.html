@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrekMate AI — Your Trekking Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ Sidebar / Navigation ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 20l6-12 4 7 3-4 5 9H3z"/>
+          <circle cx="17" cy="6" r="2"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>TrekMate AI</h1>
+        <p>Your trekking companion</p>
+      </div>
+    </div>
+
+    <nav id="tabs" aria-label="Main">
+      <button data-tab="chat" class="active">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.9-.9L3 21l1.9-5.6A8.4 8.4 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg></span>
+        <span class="label">AI Chat</span>
+      </button>
+      <button data-tab="find">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+        <span class="label">Find a Trek</span>
+      </button>
+      <button data-tab="plan">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+        <span class="label">Trek Planner</span>
+      </button>
+      <button data-tab="compare">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m0 10v-4m0 4h4m6 0h4a2 2 0 0 0 2-2v-4m0-10V3m0 0h-4"/></svg></span>
+        <span class="label">Compare</span>
+      </button>
+      <button data-tab="packing">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8V6a6 6 0 1 1 12 0v2"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 12v4M15 12v4"/></svg></span>
+        <span class="label">Packing</span>
+      </button>
+      <button data-tab="safety">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+        <span class="label">Safety</span>
+      </button>
+      <button data-tab="weather">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10a4 4 0 0 0-7.9-.9A5.5 5.5 0 1 0 6 19h11a4 4 0 0 0 1-7.9z"/><path d="M8 22v-2M12 22v-2M16 22v-2"/></svg></span>
+        <span class="label">Weather</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <span id="status" aria-live="polite"></span>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <span>Theme</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ Main ============ -->
+  <main>
+
+    <!-- ---------- Chat ---------- -->
+    <section id="chat" class="tab active">
+      <div class="chat-shell">
+        <div class="chat-hero">
+          <h2>Your Trekking Companion</h2>
+          <p>Discover trails, plan adventures, and explore the outdoors.</p>
+          <div class="chips" id="chips">
+            <button class="chip" type="button">Find treks near me</button>
+            <button class="chip" type="button">Plan a weekend trek</button>
+            <button class="chip" type="button">Compare popular treks</button>
+            <button class="chip" type="button">What should I pack?</button>
+          </div>
+        </div>
+        <div id="log" aria-live="polite" aria-label="Chat history"></div>
+        <div class="composer">
+          <!-- NEW: photo upload (predict the trek from an image) -->
+          <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" hidden>
+          <button id="photo-btn" class="photo-btn" type="button" title="Upload a photo to predict the trek" aria-label="Upload a photo">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          </button>
+          <input id="q" placeholder="Ask about treks, gear, fitness, safety… (Hindi or English)" maxlength="4000" autocomplete="off">
+          <button id="send" type="button">
+            <span class="label">Send</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Find a Trek ---------- -->
+    <section id="find" class="tab">
+      <div class="page-head">
+        <h2>Find a Trek</h2>
+        <p>Filter trails by difficulty, duration, budget, month, and state.</p>
+      </div>
+      <div class="grid">
+        <label>Difficulty<select id="f-diff"><option value="">Any</option><option>Easy</option><option>Moderate</option><option>Difficult</option></select></label>
+        <label>Max days<input id="f-days" type="number" min="1" max="30" placeholder="e.g. 5"></label>
+        <label>Budget (₹)<input id="f-budget" type="number" min="0" step="500" placeholder="e.g. 15000"></label>
+        <label>Month<select id="f-month" class="months"></select></label>
+        <label>State<input id="f-state" placeholder="e.g. Maharashtra"></label>
+      </div>
+      <button id="go-find" type="button">Find treks</button>
+      <div id="out-find" class="out"></div>
+    </section>
+
+    <!-- ---------- Planner ---------- -->
+    <section id="plan" class="tab">
+      <div class="page-head">
+        <h2>Trek Planner</h2>
+        <p>Build a day-by-day itinerary with a budget estimate.</p>
+      </div>
+      <div class="grid">
+        <label>Trek<select id="p-trek" class="treks"></select></label>
+        <label>Days (blank = standard)<input id="p-days" type="number" min="1" max="30" placeholder="auto"></label>
+        <label>Month<select id="p-month" class="months"></select></label>
+        <label>Group size<input id="p-group" type="number" min="1" value="1"></label>
+      </div>
+      <button id="go-plan" type="button">Build itinerary</button>
+      <div id="out-plan" class="out"></div>
+    </section>
+
+    <!-- ---------- Compare ---------- -->
+    <section id="compare" class="tab">
+      <div class="page-head">
+        <h2>Compare Treks</h2>
+        <p>Pick 2–4 treks to compare side by side.</p>
+      </div>
+      <div id="c-list" class="checks"></div>
+      <button id="go-compare" type="button">Compare</button>
+      <div id="out-compare" class="out"></div>
+    </section>
+
+    <!-- ---------- Packing ---------- -->
+    <section id="packing" class="tab">
+      <div class="page-head">
+        <h2>Packing Checklist</h2>
+        <p>Get a seasonal checklist tailored to your trek.</p>
+      </div>
+      <div class="grid">
+        <label>Trek<select id="k-trek" class="treks"></select></label>
+        <label>Month<select id="k-month" class="months"></select></label>
+      </div>
+      <button id="go-packing" type="button">Get checklist</button>
+      <div id="out-packing" class="out"></div>
+    </section>
+
+    <!-- ---------- Safety ---------- -->
+    <section id="safety" class="tab">
+      <div class="page-head">
+        <h2>Safety Tips</h2>
+        <p>Altitude, weather, emergency, and general trekking guidance.</p>
+      </div>
+      <div class="grid">
+        <label>Trek (optional)<select id="s-trek" class="treks optional"></select></label>
+        <label>Topic<select id="s-topic"><option value="">All</option><option value="general">General</option><option value="ams">Altitude sickness</option><option value="weather">Weather</option><option value="emergency">Emergency</option></select></label>
+      </div>
+      <button id="go-safety" type="button">Show safety tips</button>
+      <div id="out-safety" class="out"></div>
+    </section>
+
+    <!-- ---------- Weather ---------- -->
+    <section id="weather" class="tab">
+      <div class="page-head">
+        <h2>Weather</h2>
+        <p>Live conditions at the trek's base location.</p>
+      </div>
+      <div class="grid"><label>Trek<select id="w-trek" class="treks"></select></label></div>
+      <button id="go-weather" type="button">Get weather</button>
+      <div id="out-weather" class="out"></div>
+    </section>
+
+  </main>
+</div>
+
+<footer>Guidance only. Always confirm conditions, permits and safety with local authorities and your guide.</footer>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
