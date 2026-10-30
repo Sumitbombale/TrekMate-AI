@@ -1,5 +1,15 @@
 # TrekMate AI
 
+# TrekMate AI
+
+**AI-Powered Trekking Assistant**
+
+🌐 **Live Demo:** https://trekmate-ai.onrender.com
+
+📂 **GitHub Repository:** https://github.com/Sumitbombale/TrekMate-AI
+
+Explore trekking destinations, get AI-powered recommendations, plan trips, compare treks, and receive personalized packing and safety suggestions.
+
 Trekking assistant: FastAPI backend + HTML/CSS/JS frontend.
 
 Features: AI chat (Gemini + retrieval), Find a Trek (TrekMatch score), Trek Planner, Compare, Packing, Safety, Live Weather (OpenWeatherMap).
